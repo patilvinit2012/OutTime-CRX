@@ -1,0 +1,34 @@
+{
+    "name": "Out Time",
+    "description" : "This extension allows the user to calculate time to go home. Shortcut: Ctrl+Shift+F",
+    "version": "1.0",
+    "manifest_version": 2,
+
+    "browser_action": {
+      "default_popup": "hello.html",
+      "default_icon": "icon.png",
+      "default_title": "Out Time"
+    },
+
+    "permissions": [
+    	"activeTab",
+    	"storage"
+    ],
+
+
+    "content_scripts": [{
+    	"matches": ["<all_urls>"],
+    	"js": ["jquery-3.3.1.min.js","content.js","bootstrap.min.js"]
+    }],
+
+    "commands": {
+      "_execute_browser_action": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+F",
+          "mac": "MacCtrl+Shift+F"
+        },
+        "description": "Show Out Time"
+      }
+    }
+  
+  }
