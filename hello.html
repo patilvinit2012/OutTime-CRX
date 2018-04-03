@@ -9,7 +9,13 @@
   </head>
   <style type="text/css" media="screen">
     .mBot5 { margin-bottom: 5px; }
-    #bucketTime {font-weight: bold;}
+    .bucketTime {font-weight: bold;}
+    .abstract {
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 50px;
+    }
   </style>
   <script src="jquery-3.3.1.min.js"></script>
   <script src="bootstrap.min.js"></script>
@@ -20,14 +26,21 @@
         <div class="col-md-3"></div>
         <div class="col-md-5">
           <label>Enter the Entry time: </label>
-          <button id="refreshBtn" class="btn btn-primary btn-xs pull-right mBot5"><i class="material-icons" style="font-size:16px">refresh</i></button>
+          <button id="refreshBtn" class="btn btn-primary btn-xs pull-right mBot5"><i class="material-icons" style="font-size:16px">refresh</i>
+          <button id="viewBtn" class="btn btn-primary btn-xs pull-right mBot5"><i class="material-icons" style="font-size:16px">view_compact</i></button>
           <input type="text" id="inputTime" class="form-control" placeholder="Eg: 8:30" autofocus="autofocus"/> 
           <br>
-          <ul class="list-group">
-            <li class="list-group-item">Time completed: <span class="badge badge-warning" id="timeElapsed"></span></li>
-            <li class="list-group-item">Time Remaining: <span class="badge badge-primary badge-pill" id="timeRemaining"></span></li>
-            <li class="list-group-item">Out-time to complete <span id="bucketTimeCtnr"><span id="bucketTime" class="text-primary"></span></span> hours: <span class="badge badge-primary badge-pill" id="outputTime"></span></li>
-          </ul>
+          <div id="listView">
+            <ul class="list-group">
+              <li class="list-group-item">Time completed: <span class="badge badge-warning timeElapsed" id=""></span></li>
+              <li class="list-group-item">Time Remaining: <span class="badge badge-primary badge-pill timeRemaining" id=""></span></li>
+              <li class="list-group-item">Out-time to complete <span class="bucketTimeCtnr"><span id="" class="text-primary bucketTime"></span></span> hours: <span class="badge badge-primary badge-pill outputTime" id=""></span></li>
+            </ul>
+          </div>
+          <div id="abstractView">
+            <h1 class="timeRemaining abstract"></h1>
+            <p align="right"><i>remaining</i></p>
+          </div>
         </div>
         <div class="col-md-3"></div>
       </div>
