@@ -1,4 +1,4 @@
-var script = document.createElement('script');
+/*var script = document.createElement('script');
 script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js';
 script.type ="text/javascript";
 document.body.appendChild(script);
@@ -34,4 +34,4 @@ function copyToClipboard(text){
     dummy.select();
     document.execCommand("copy");
     document.body.removeChild(dummy);
-}
+}*/
