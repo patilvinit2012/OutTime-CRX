@@ -427,18 +427,22 @@
   }
 
   function decodeX(es){
-    var rn = es[0];
-    es = es.substr(1);
-    for (var i = 0; i < Number.parseInt(rn); i++) {
-     es = atob(es);
+    if(es){
+      var rn = es[0];
+      es = es.substr(1);
+      for (var i = 0; i < Number.parseInt(rn); i++) {
+        es = atob(es);
+      }  
     }
     return es;
   }
 
+  function hello(x){
+    alert('x:' +x);
+  }
 
 
-
-/*  document.addEventListener('DOMContentLoaded', function () {
-    chrome.alarms.create("myAlarm", {delayInMinutes: 0.1, periodInMinutes: 0.2} );
+ /* document.addEventListener('DOMContentLoaded', function () {
+    chrome.alarms.create("myAlarm", {when:Date.now() , periodInMinutes: 0.1} );
   });*/
 //})
