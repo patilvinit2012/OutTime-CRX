@@ -12,6 +12,7 @@
     const ABSTRACTVIEW = 'ABSTRACTVIEW';
     const DEFAULTVIEW = LISTVIEW;
     const VIEWOPTION  = 'VIEWOPTION';
+    const LOGINMSG = {SUCCESS: 'SUCCESS',ERROR: 'ERROR'}
     init();
 
     $('#inputTime').bind('keyup',function(event){
@@ -68,13 +69,16 @@
     }
 
     function getFTimeText(hrs,mins){
-      var text ='';
+      var text =``;
 
       if(hrs){
         text += `${hrs} ${singOrPlu('Hour',Number.parseInt(hrs))}, `;    
       }
       if(mins){
         text += `${mins} ${singOrPlu('Minute',Number.parseInt(mins))}`;  
+      }
+      if(!text){
+        showHideAlarm(true);
       }
       return text;
     }
@@ -84,6 +88,20 @@
         return text+'s';
       }
       return text;
+    }
+
+    function showHideAlarm(show){
+      var html = ``;
+      $('#alarmClock').html(html);
+      if(show){
+        html = `<div class="contain-clock">
+                <div class="face-1"><div class="hour"></div><div class="minute"></div><div class="second"></div><div class="center"></div></div>
+                <div class="face-2"><div class="line"></div><div class="line line-2"></div><div class="line line-3"></div><div class="line line-4"></div><div class="line line-5"></div><div class="line line-6"></div></div>
+                <div class="arm"></div><div class="arm arm-2"></div><div class="bell"></div><div class="bell bell-2"></div><div class="hammer"></div><div class="handle"></div>
+              </div>`;
+        $('#alarmClock').html(html);
+      }
+      
     }
 
     function getInpTime(){
@@ -216,20 +234,31 @@
                   input.UserAuth[0].UserName = data.statusmessage.split(":S:")[1];
                   localStorage.userData = encodeX(JSON.stringify(input));
                   decorateTimeData();
+                  loginMsg(LOGINMSG.SUCCESS);
               }
               else if (data.status == -1){  
                   alert(data.statusmessage);
               }else {
-                alert('Login again');
+                loginMsg(LOGINMSG.ERROR,'Login again');
               }
               ajaxLoader(false);
           },
           error: function (xhr, textStatus, err) {
             ajaxLoader(false);
-            console.log('Login error');
-            alert('Please check your connection');
+            checkInternet();
           }
       })
+    }
+
+    function loginMsg(flag,msg){
+      if(LOGINMSG.SUCCESS == flag){
+        $('#loginSuccessMsg').show().fadeOut(2000);
+        if(msg) $('#loginSuccessMsg .msgBody').text(msg);
+      }
+      if(LOGINMSG.ERROR == flag){
+        $('#loginErrorMsg').show().fadeOut(2000);
+        if(msg) $('#loginErrorMsg .msgBody').text(msg);
+      }
     }
 
     function saveCred(un,pw,remCredBool){
@@ -309,7 +338,7 @@
                     }
                     else {
                       console.log('data.status != 1');
-                      localStorage.userData = null;
+                      localStorage.userData = '';
                       alert('Login again on this device.');
                     }
                     ajaxLoader(false);
@@ -317,7 +346,7 @@
                 error: function (xhr, textStatus, err) {
                   ajaxLoader(false);
                   console.log('getAttendanceData error');
-                  alert('Please check your connection.');
+                  checkInternet();
               }
             });
     }
