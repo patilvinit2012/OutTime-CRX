@@ -33,7 +33,6 @@
 
     $('#refreshBtn').bind('click',() => entryTimeEventTrigger());
 
-
     $('#btnLogin').on('click',loginViewToggle);
     $('#getAttendanceData').on('click',getAttendanceData);
     $('#loginMastek').on('click',login);
@@ -54,12 +53,18 @@
       var estOutDate = new Date();
       estOutDate.setHours(inputDate.getHours() + (parseInt(localStorage[BUCKETTIME].split(':')[0]) || DEFAULTBUCKHOUR));
       var hours = estOutDate.getHours();
-      estOutDate.setMinutes(inputDate.getMinutes() + (parseInt(localStorage[BUCKETTIME].split(':')[1]) || DEFAULTBUCKMINS));
+
+      var minsInt = parseInt(localStorage[BUCKETTIME].split(':')[1]);
+      if(minsInt == null){
+        minsInt = DEFAULTBUCKMINS;
+      }
+      var setMins = inputDate.getMinutes() + minsInt;
+      estOutDate.setMinutes(setMins);
       var minutes = estOutDate.getMinutes();
+
       minutes = minutes >= 10 ? minutes : "0" + minutes;
       var am_pm = hours >= 12 ? 'pm' : 'am';
       $('.outputTime').text(`${estOutDate.getHours()}:${minutes} ${am_pm}`);
-
 
       var reTimeObj = msToTime(estOutDate - currDate);
       $('.timeRemaining').text(getFTimeText(reTimeObj.hrs,reTimeObj.mins));
@@ -101,7 +106,6 @@
               </div>`;
         $('#alarmClock').html(html);
       }
-      
     }
 
     function getInpTime(){
@@ -142,11 +146,9 @@
           $('#abstractView').show();
         }
       }
-
       if(getUserName()){
         decorateTimeData();
       }
-
       setUserCred();
     }
 
@@ -196,7 +198,6 @@
       }
     }
 
-
     var VERSION_NUMBER = '1.0.0';
     var ENVIRONMENT = 'L';
     var WebAPIURL = "https://ess.masteknet.com/MastAppApi/api/";
@@ -204,7 +205,6 @@
     function loginViewToggle(){
       $('.views').hide();
       $('#userAccountView').show();
-
     }
 
     function login(){
@@ -216,7 +216,6 @@
       var pw = $('#mastPass').val();
       var remCredBool = $('#remCred:checked').length;
       saveCred(un,pw,remCredBool);
-      
       
       var input = new Object();
       input.UserAuth = new Array();
@@ -309,7 +308,7 @@
     function getAttendanceData(){
       ajaxLoader(true);
       exec$Json();
-      var userData = JSON.parse(decodeX(localStorage.userData));
+      var userData = JSON.parse(decodeX(localStorage.userData) || '{}');
       var URL = WebAPIURL +  "Attendance/getAttendance";
             $.support.cors = true;
             userData.InOffice = new Array();
@@ -339,7 +338,9 @@
                     else {
                       console.log('data.status != 1');
                       localStorage.userData = '';
-                      alert('Login again on this device.');
+                      if(confirm('Login again on this device?')){
+                        login();
+                      }
                     }
                     ajaxLoader(false);
                 },
