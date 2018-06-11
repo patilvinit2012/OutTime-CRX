@@ -1,4 +1,5 @@
-/* https://codepen.io/jonitrythall/pen/slvmi */
+
+
 .contain-clock {
   position: relative;
   margin: -75px auto;
@@ -9,19 +10,19 @@
 }
 
 .face-1 {
-  position: absolute;
-  top: 23px;
-  left: 23px;
-  z-index: 3;
-  background: white;
-  border-radius: 50%;
-  width: 109px;
-  height: 109px;
+    position: absolute;
+    top: 8px;
+    left: 23px;
+    z-index: 3;
+    background: white;
+    border-radius: 50%;
+    width: 110px;
+    height: 110px;
 }
 
 .face-2 {
   position: relative;
-  margin: 200px auto;
+  margin: 140spx auto;
   z-index: 2;
   background: white;
   border: 15px solid #ed6e46;
@@ -31,12 +32,12 @@
 }
 
 .line {
-  position: absolute;
-  left: 50%;
-  margin-left: -3px;
-  background: gray;
-  width: 6px;
-  height: 126px;
+    position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    background: gray;
+    width: 6px;
+    height: 96px;
 }
 
 .line-2 {
@@ -118,7 +119,7 @@
   width: 2px;
   height: 50px;
   animation: tick-tock 60s steps(60, end) infinite;
-  -webkit-animation: tick-tock 60s steps(60, end) infinite;
+  -webkit-animation: tick-tock 60s steps(60 ,end) infinite;
 }
 
 .center {
@@ -144,7 +145,7 @@
   -webkit-transform: rotate(-30deg);
   border-radius: 50px;
   width: 10px;
-  height: 230px;
+  height: 200px;
 }
 
 .arm-2 {
@@ -184,7 +185,7 @@
 }
 
 .hammer:before {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   left: -6px;
@@ -195,20 +196,21 @@
 }
 
 .handle {
-  position: absolute;
-  top: -68px;
-  left: 32px;
-  border: 8px solid gray;
-  border-radius: 50px 50px 0 0;
-  width: 75px;
-  height: 30px;
+    position: absolute;
+    top: -68px;
+    left: 32px;
+    border: 9px solid gray;
+    border-radius: 50px 50px 0 0;
+    width: 85px;
+    height: 50px;
 }
 
 .handle:after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   top: 26px;
+  background: #8fd5d5;
   width: 75px;
   height: 15px;
 }
@@ -218,11 +220,13 @@
     transform: rotate(360deg);
   }
 }
+
 @-webkit-keyframes tick-tock {
   to {
     -webkit-transform: rotate(360deg) translate3d(0, 0, 0);
   }
 }
+
 @-webkit-keyframes alarm {
   from {
     -webkit-transform-origin: bottom right;
@@ -233,6 +237,7 @@
     -webkit-transform: rotate(-15deg);
   }
 }
+
 @keyframes alarm {
   from {
     transform-origin: bottom right;
@@ -243,6 +248,7 @@
     transform: rotate(-15deg);
   }
 }
+
 @-webkit-keyframes alarm-2 {
   from {
     -webkit-transform: rotate(1deg);
@@ -251,6 +257,7 @@
     -webkit-transform: rotate(-1deg);
   }
 }
+
 @keyframes alarm-2 {
   from {
     transform: rotate(1deg);
@@ -259,3 +266,4 @@
     transform: rotate(-1deg);
   }
 }
+

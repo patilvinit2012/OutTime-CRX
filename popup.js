@@ -332,6 +332,7 @@
                       var todaysObj = arr.filter(day => new Date().getDate() == day.date.substr(0,2));
                       $('#inputTime').val(todaysObj[0].intime);
                       $('#refTime').text(data.obj.lstReq[0]._CurrTime);
+                      resetRemainingTime();
                       entryTimeEventTrigger();
                       localStorage.setItem('AttendanceData',JSON.stringify(data));
                     }
@@ -350,6 +351,17 @@
                   checkInternet();
               }
             });
+    }
+
+    function resetRemainingTime(){
+      if(new Date().getDay() == 1) {//Monday
+        if(localStorage["BUCKETTIME"] != DEFAULTBUCKTIME){
+          if(confirm('Its Monday, Do you want to reset bucket Time time to ' + DEFAULTBUCKTIME + ' hours?')){
+            localStorage["BUCKETTIME"] = DEFAULTBUCKTIME;
+            $('.bucketTime').text(DEFAULTBUCKTIME);
+          }
+        }
+      }
     }
 
     function setUserCred(){
