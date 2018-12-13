@@ -1,39 +1,44 @@
 {
-    "name": "Out Time",
-    "description" : "This extension allows the user to calculate time to go home. Shortcut: Ctrl+Shift+F",
-    "version": "1.0",
-    "manifest_version": 2,
+  "name": "Out Time",
+  "description" : "This extension allows the user to calculate time to go home. Shortcut: `Ctrl+Shift+F`- to show time, `Ctrl+Shift+H`- to change view.",
+  "version": "1.0",
+  "manifest_version": 2,
 
-    "browser_action": {
-      "default_popup": "outTime.html",
-      "default_icon": "icon.png",
-      "default_title": "Out Time"
+  "browser_action": {
+    "default_popup": "outTime.html",
+    "default_icon": "icon.png",
+    "default_title": "Out Time"
+  },
+
+  "permissions": [
+  	"activeTab",
+  	"storage",
+    "alarms"
+  ],
+
+  "background": {
+    "scripts": ["background.js"],
+     "persistent": false
+  },
+
+  "content_scripts": [{
+  	"matches": ["<all_urls>"],
+  	"js": ["content.js"]
+  }],
+
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "MacCtrl+Shift+F"
+      },
+      "description": "Show Out Time"
     },
-
-    "permissions": [
-    	"activeTab",
-    	"storage",
-      "alarms"
-    ],
-
-    "background": {
-      "scripts": ["background.js"],
-       "persistent": false
-    },
-
-    "content_scripts": [{
-    	"matches": ["<all_urls>"],
-    	"js": ["content.js"]
-    }],
-
-    "commands": {
-      "_execute_browser_action": {
-        "suggested_key": {
-          "default": "Ctrl+Shift+F",
-          "mac": "MacCtrl+Shift+F"
-        },
-        "description": "Show Out Time"
-      }
+    "changeView": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+H"
+      },
+      "description": "Change View"
     }
-  
   }
+}

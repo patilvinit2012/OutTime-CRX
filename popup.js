@@ -12,7 +12,8 @@
     const ABSTRACTVIEW = 'ABSTRACTVIEW';
     const DEFAULTVIEW = LISTVIEW;
     const VIEWOPTION  = 'VIEWOPTION';
-    const LOGINMSG = {SUCCESS: 'SUCCESS',ERROR: 'ERROR'}
+    const LOGINMSG = {SUCCESS: 'SUCCESS',ERROR: 'ERROR'};
+    var isBktTimeOptVisible = false;
     init();
 
     $('#inputTime').bind('keyup',function(event){
@@ -150,7 +151,7 @@
         }else if(view == ABSTRACTVIEW){
           $('#abstractView').show();
         }
-      }
+      }2
 
       if(getUserName()){
         decorateTimeData();
@@ -166,42 +167,58 @@
         parentObj.append(`<input type="text" id="bucketTimeInp" class="" style="width:10%" placeholder="Eg: 8:45">`);
         $('#bucketTimeInp').val(bucketTimeVal);
         $('#bucketTimeInp').on('keyup',event => onBuckeTimeInp(event));
+        $(document).on('click',hideBucketTimeInp);
       },
     })
 
-    var changeBktTmTimer;
-    $('.changeBkTimeIcon').on({
+    function hideBucketTimeInp(e) {
+      if (($(e.target)[0] != $('.bucketTime')[0]) && ($(e.target)[0] != $('#bucketTimeInp')[0])) {
+        $('.bucketTime').show();
+        $('#bucketTimeInp').remove();
+        $(document).off('click',hideBucketTimeInp);
+      }
+    }
+
+    var changeBkTimeIconObj = $('.changeBkTimeIcon');
+    changeBkTimeIconObj.on({
       click: function(e){
-        $('#dynamBktTimeOptions').hide();
-        $('.optionBubble').show();
-        $('#dynamBktTimeOptions').fadeIn("100");
-        changeBktTmTimer = setTimeout(function() {
-          $('.optionBubble').hide();
-        }, 5000);
+        if(isBktTimeOptVisible){
+          hideOptionBubbleCont();
+        }else{
+          $('#dynamBktTimeOptions').hide();
+          $('.optionBubble').show();
+          $('#dynamBktTimeOptions').fadeIn("100");
+          isBktTimeOptVisible = true;
+        }
+        $(document).on('click',hideOptionBubbleContHandler);
       },
     });
 
+    function hideOptionBubbleContHandler(e) {
+      if ($(e.target)[0] != changeBkTimeIconObj[0]) {
+        hideOptionBubbleCont();
+        $(document).off('click',hideOptionBubbleContHandler);
+      }
+    }
+    var changeBktTmTimer;
     $('.optionBubble').on({
-      mouseover: function(){
-        clearTimeout(changeBktTmTimer);
-      },
-      mouseout: function(e){
-        changeBktTmTimer = setTimeout(function() {
-          $('.optionBubble').hide();
-        }, 3000);
-      },
       click: function(e){
         var currEleTime = $(e.target).data('time');
-        $('.optionBubble').hide();
+        hideOptionBubbleCont();
         localStorage["BUCKETTIME"] = currEleTime;
         $('.bucketTime').text(currEleTime);
         entryTimeEventTrigger();
       }
     })
 
+    function hideOptionBubbleCont(){
+      $('.optionBubble').hide();
+      isBktTimeOptVisible = false;
+    }
+
     function onBuckeTimeInp(event,currObj){
       if(event.keyCode == 13){
-          var timeStr = $('#bucketTimeInp').val();
+        var timeStr = $('#bucketTimeInp').val();
 	      localStorage.setItem(BUCKETTIME,timeStr);
 	      $('#bucketTimeInp').remove();
 	      $('.bucketTime').show().text(timeStr);
@@ -365,6 +382,7 @@
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
                     if (data.status == 1) {
+                      console.table(data.obj.lstTS);
                       var arr = data.obj.lstTS;
                       var todaysObj = arr.filter(day => new Date().getDate() == day.date.substr(0,2));
                       $('#inputTime').val(todaysObj[0].intime);
@@ -404,10 +422,10 @@
     function resetRemainingTime(data){
       if(new Date().getDay() == 1) {//Monday
         if(localStorage["BUCKETTIME"] != DEFAULTBUCKTIME){
-          if(confirm('Its Monday, Do you want to reset bucket Time time to ' + DEFAULTBUCKTIME + ' hours?')){
+          //if(confirm('Its Monday, Do you want to reset bucket Time time to ' + DEFAULTBUCKTIME + ' hours?')){
             localStorage["BUCKETTIME"] = DEFAULTBUCKTIME;
             $('.bucketTime').text(DEFAULTBUCKTIME);
-          }
+          //}
         }
       }
       if(new Date().getDay() == 5) {//Friday
@@ -548,6 +566,13 @@
     $('#refTime').text(data.obj.lstReq[0]._CurrTime + ', ' + getDayName(data));
     $('#refTime').attr('title', new Date(data.timeStamp));
   }
+
+
+  chrome.commands.onCommand.addListener(function(command) {
+    if (command == "changeView") {
+      $('#changeViewBtn').trigger('click');      
+    }
+  });
  /* document.addEventListener('DOMContentLoaded', function () {
     chrome.alarms.create("myAlarm", {when:Date.now() , periodInMinutes: 0.1} );
   });*/
