@@ -70,8 +70,13 @@
       var reTimeObj = msToTime(estOutDate - currDate);
       $('.timeRemaining').text(getFTimeText(reTimeObj.hrs,reTimeObj.mins));
       //chrome.browserAction.setBadgeText({text: (reTimeObj.hrs) ? reTimeObj.hrs + 'h+' : reTimeObj.mins + 'm'});
-      chrome.browserAction.setBadgeText({text: reTimeObj.hrs+"." +reTimeObj.mins});
+      //chrome.browserAction.setBadgeText({text: reTimeObj.hrs+"." +reTimeObj.mins});
       
+      var targetDate = new Date();
+      targetDate.setHours(estOutDate.getHours());
+      targetDate.setMinutes(minutes);
+
+      localStorage['targetDate'] = targetDate.toString();
     }
 
     function getFTimeText(hrs,mins){
