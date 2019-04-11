@@ -19,7 +19,7 @@ function startTimer(){
 			var currDate = new Date();
 			var hr = trgtDate.getHours() - currDate.getHours();
 			var min = trgtDate.getMinutes() - currDate.getMinutes();
-			if(min < 0){
+			if(min < 0 && hr != 0){
 				min = 60 + min;
 				hr = hr-1;
 			}
