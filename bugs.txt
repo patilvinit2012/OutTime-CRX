@@ -1,0 +1,1 @@
+-After comming on Tuesday from a 'leave on Monday', the 'Out-time to complete' does not resets to 8:45, it is still the time which was set on friday
